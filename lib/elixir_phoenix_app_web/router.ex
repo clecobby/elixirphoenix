@@ -5,22 +5,22 @@ defmodule ElixirPhoenixAppWeb.Router do
   plug :dispatch
 
   get "/" do
-    send_html(conn, 200, machine_html())
+    send_html(conn, 200, build_dl())
   end
 
   get "/hello" do
-    send_html(conn, 200, machine_html())
+    send_html(conn, 200, build_dl())
   end
 
   get "/hello/:_name" do
-    send_html(conn, 200, machine_html())
+    send_html(conn, 200, build_dl())
   end
 
   match _ do
     send_html(conn, 404, "<p>Route not found</p>")
   end
 
-  defp machine_html do
+  defp build_dl do
     case ElixirPhoenixApp.MachineService.get_machine_info() do
       {:ok, m} ->
         """
@@ -49,7 +49,7 @@ defmodule ElixirPhoenixAppWeb.Router do
         """
 
       _ ->
-        "<dl><dt>Status</dt><dd>Machine info unavailable — FLY_API_TOKEN, FLY_APP_NAME, FLY_MACHINE_ID not set</dd></dl>"
+        "<dl><dt>Status</dt><dd>Not running on Fly — FLY_MACHINE_ID not set</dd></dl>"
     end
   end
 
